@@ -2,10 +2,6 @@
 
 **[فارسی](README.fa.md)** | English
 
-<p align="center">
-  <img src="assets/hands-phone.png" alt="Two hands gently touching around a colorful mobile phone" width="180">
-</p>
-
 A mouse cursor for your Android phone that **glides** to wherever you tap — and clicks for you when it gets there.
 
 Tap anywhere on the screen: the cursor smoothly slides from where it is to your tap point, then performs the real tap (or long-press, scroll, or pinch) at the destination. Between taps it simply stays on screen, like a real mouse pointer.
