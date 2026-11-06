@@ -1,0 +1,11 @@
+# Signing keys — never publish these
+*.jks
+*.keystore
+
+# Build output
+*.apk
+*.idsig
+build/
+
+# Local toolchain setup
+toolchain-env.sh
