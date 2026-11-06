@@ -34,6 +34,7 @@ public class MainActivity extends Activity {
     private TextView statusA11y;
     private Button toggleBtn;
     private TextView speedLabel;
+    private TextView delayLabel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,6 +120,29 @@ public class MainActivity extends Activity {
         });
         root.addView(sb);
 
+        delayLabel = text("", 14, Color.WHITE, false);
+        root.addView(spacer(16));
+        root.addView(delayLabel);
+        SeekBar dsb = new SeekBar(this);
+        int curDelay = sp.getInt(OverlayService.KEY_DELAY, 500);
+        dsb.setMax(20);
+        dsb.setProgress(curDelay / 100);
+        updateDelayLabel(curDelay);
+        dsb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar bar, int progress,
+                                          boolean fromUser) {
+                int ms = progress * 100;
+                sp.edit().putInt(OverlayService.KEY_DELAY, ms).apply();
+                updateDelayLabel(ms);
+            }
+            @Override public void onStartTrackingTouch(SeekBar bar) { }
+            @Override public void onStopTrackingTouch(SeekBar bar) { }
+        });
+        root.addView(dsb);
+        root.addView(text("برای ویدیو گرفتن خوبه: نشانگر می‌رسه و ساکت وامیسته تا بیننده ببینه کجا رو زدی؛ آخر مکث، خود نشانگر هم دقیقاً هم‌زمان با کلیک واقعی یه تپ می‌کنه.",
+                12.5f, Color.rgb(150, 150, 155), false));
+
         root.addView(spacer(16));
         root.addView(text("شکل نشانگر موس:", 14, Color.WHITE, false));
         styleRow = new LinearLayout(this);
@@ -187,6 +211,12 @@ public class MainActivity extends Activity {
 
     private void updateSpeedLabel(int pct) {
         speedLabel.setText("سرعت لغزش نشانگر: " + pct + "٪");
+    }
+
+    private void updateDelayLabel(int ms) {
+        delayLabel.setText(ms == 0
+                ? "تأخیر قبل از کلیک: بدون تأخیر"
+                : "تأخیر قبل از کلیک: " + ms + " میلی‌ثانیه");
     }
 
     private static final int REQ_PICK_CURSOR = 42;

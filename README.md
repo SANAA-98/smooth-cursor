@@ -14,6 +14,7 @@ When you record your screen with ordinary finger taps, viewers can't see where y
 
 - **Tap, long-press, scroll & two-finger gestures** — everything is replayed at the destination after the glide
 - **Adjustable glide speed** (30%–200%)
+- **Adjustable click delay** (0–2000 ms) — the cursor rests on the target, then visibly presses at the exact moment the real tap fires, so viewers of your recordings see precisely what you tapped before it opens
 - **Floating freeze button** — one tap freezes the cursor and frees the whole screen, so you can type fast on the keyboard; tap again to bring the smooth cursor back. It's draggable, so it never gets in your way
 - **6 built-in cursor styles** — white arrow, black arrow, orange arrow, crosshair, ring, laser dot
 - **Your own cursor image** — pick any picture from your gallery, resize it (40%–200%), and choose its exact click point with the hotspot editor

@@ -55,6 +55,7 @@ public class OverlayService extends Service {
     public static final String ACTION_STOP = "com.sana.smoothcursor.STOP";
     static final String PREFS = "sc_prefs";
     static final String KEY_SPEED = "speed_pct";
+    static final String KEY_DELAY = "click_delay_ms";
     static final String KEY_STYLE = "cursor_style";
     static final String KEY_CUSTOM_SIZE = "custom_size_pct";
     static final String KEY_HOTSPOT_X = "custom_hotspot_x";
@@ -731,18 +732,29 @@ public class OverlayService extends Service {
         glideCursorTo(r.x, r.y, false);
         long dur = lastGlideDuration;
         final long stroke = r.longPress ? 600 : 80;
+        // Adjustable pause between the cursor's arrival and the click, so
+        // anyone watching (e.g. in a recorded tutorial) can clearly see
+        // what is about to be tapped before it opens. The cursor rests
+        // silently on the target during the pause; only at the very end
+        // does it visibly "press" — and the real tap fires inside that
+        // press (the gesture dispatches ~80 ms into the 170 ms pulse, at
+        // its deepest point), so the visual tap and the opening line up.
+        final int delayMs = getSharedPreferences(PREFS, MODE_PRIVATE)
+                .getInt(KEY_DELAY, 500);
         main.postDelayed(() -> {
-            pulseCursor();
-            echoX = r.x;
-            echoY = r.y;
-            runInjection(
-                    () -> CursorAccessibilityService.tap(r.x, r.y, stroke,
-                            this::closeInjection),
-                    stroke + 700,
-                    () -> {
-                        processing = false;
-                        processQueue();
-                    });
+            main.postDelayed(() -> {
+                pulseCursor();
+                echoX = r.x;
+                echoY = r.y;
+                runInjection(
+                        () -> CursorAccessibilityService.tap(r.x, r.y, stroke,
+                                this::closeInjection),
+                        stroke + 700,
+                        () -> {
+                            processing = false;
+                            processQueue();
+                        });
+            }, delayMs);
         }, dur + 10);
     }
 
